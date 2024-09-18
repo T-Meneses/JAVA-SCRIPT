@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora completa de Idade</title>
+</head>
+<body>
+    <h1>Calculadora de Idade</h1>
+    <form id="idadeForm">
+        <label for="dia">Dia:</label>
+        <input type="number" id="dia" required><br>
+
+        <label for="mes">Mês:</label>
+        <input type="number" id="mes" required><br>
+
+        <label for="ano">Ano:</label>
+        <input type="number" id="ano" required><br>
+
+        <button type="button" onclick="calcularIdade()">Calcular Idade</button>
+    </form>
+
+    <h2>Resultado:</h2>
+    <p id="resultado"></p>
+
+    <script>
+        function calcularIdade() {
+            // Obtendo os valores do formulário
+            const dia = parseInt(document.getElementById('dia').value);
+            const mes = parseInt(document.getElementById('mes').value);
+            const ano = parseInt(document.getElementById('ano').value);
+
+            if (!dia || !mes || !ano) {
+                document.getElementById('resultado').innerText = 'Por favor, preencha todos os campos corretamente.';
+                return;
+            }
+
+            const dataNascimento = new Date(ano, mes - 1, dia); // O mês é zero-indexado em JavaScript
+            const hoje = new Date();
+
+            let idade = hoje.getFullYear() - dataNascimento.getFullYear();
+            const idadeMes = hoje.getMonth() - dataNascimento.getMonth();
+            const idadeDia = hoje.getDate() - dataNascimento.getDate();
+
+            if (idadeDia < 0) {
+                idade--;
+            }
+
+            if (idadeMes < 0) {
+                idade--;
+            }
+
+            const meses = idadeMes < 0 ? 12 + idadeMes : idadeMes;
+            const dias = idadeDia < 0 ? new Date(hoje.getFullYear(), hoje.getMonth(), 0).getDate() + idadeDia : idadeDia;
+
+            document.getElementById('resultado').innerText = `Idade: ${idade} anos, ${meses} meses e ${dias} dias.`;
+        }
+    </script>
+</body>
+</html>
